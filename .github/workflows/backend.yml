@@ -33,7 +33,7 @@ jobs:
     - name: Deploy to DigitalOcean
       run: |
         ssh -tt -o StrictHostKeyChecking=no ${{ secrets.DIGITALOCEAN_SSH_USER }}@${{ secrets.DIGITALOCEAN_IP_ADDRESS }} << EOF
-          cd /path/to/your/backend # Update this path to the actual path on your server
+          cd /var/www/html/backend/willi-backend # Update this path to the actual path on your server
           git pull origin master
           npm install
           pm2 restart all # or your specific server restart command
