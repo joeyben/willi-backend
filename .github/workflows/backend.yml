@@ -1,0 +1,44 @@
+name: Deploy Backend to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Set up SSH Key
+    - name: Setup SSH Keys
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.DIGITALOCEAN_IP_ADDRESS }} >> ~/.ssh/known_hosts
+
+    # Backend Deployment
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.9.0' # Use the node version that matches your backend requirements
+
+    - name: Install Backend Dependencies
+      run: npm install
+      working-directory: ./backend # Update this if your backend directory structure is different
+
+    - name: Deploy to DigitalOcean
+      run: |
+        ssh -tt -o StrictHostKeyChecking=no ${{ secrets.DIGITALOCEAN_SSH_USER }}@${{ secrets.DIGITALOCEAN_IP_ADDRESS }} << EOF
+          cd /path/to/your/backend # Update this path to the actual path on your server
+          git pull origin master
+          npm install
+          pm2 restart all # or your specific server restart command
+        EOF
+      env:
+        DIGITALOCEAN_SSH_USER: ${{ secrets.DIGITALOCEAN_SSH_USER }}
+        DIGITALOCEAN_IP_ADDRESS: ${{ secrets.DIGITALOCEAN_IP_ADDRESS }}
