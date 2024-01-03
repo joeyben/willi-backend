@@ -29,7 +29,6 @@ jobs:
 
     - name: Install Backend Dependencies
       run: npm install
-      working-directory: ./backend # Update this if your backend directory structure is different
 
     - name: Deploy to DigitalOcean
       run: |
