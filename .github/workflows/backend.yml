@@ -35,6 +35,8 @@ jobs:
         ssh -tt -o StrictHostKeyChecking=no ${{ secrets.DIGITALOCEAN_SSH_USER }}@${{ secrets.DIGITALOCEAN_IP_ADDRESS }} << EOF
           cd /var/www/html/backend/willi-backend # Update this path to the actual path on your server
           git pull origin master
+          rm -rf node_modules
+          rm -f package-lock.json
           npm install
           pm2 restart all # or your specific server restart command
         EOF
