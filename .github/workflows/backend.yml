@@ -33,7 +33,7 @@ jobs:
     - name: Deploy to DigitalOcean
       run: |
         ssh -tt -o StrictHostKeyChecking=no ${{ secrets.DIGITALOCEAN_SSH_USER }}@${{ secrets.DIGITALOCEAN_IP_ADDRESS }} << EOF
-          cd /var/www/html/backend/willi-backend # Update this path to the actual path on your server
+          cd /var/www/html/backend/willi-backend/src # Update this path to the actual path on your server
           git pull origin master
           rm -rf node_modules
           rm -f package-lock.json
