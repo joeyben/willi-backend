@@ -38,7 +38,7 @@ jobs:
           rm -rf node_modules
           rm -f package-lock.json
           npm install
-          pm2 restart all # or your specific server restart command
+          pm2 restart willi || true # or your specific server restart command
         EOF
       env:
         DIGITALOCEAN_SSH_USER: ${{ secrets.DIGITALOCEAN_SSH_USER }}
